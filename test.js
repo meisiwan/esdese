@@ -1,5 +1,5 @@
 var assert = require('assert');
-var Step = require('./step');
+var Step = require('./index');
 describe('异步流程', function() {
   describe('Step', function() {
     this.timeout(60000);
