@@ -1,7 +1,7 @@
 var assert = require('assert');
-var Step = require('./esdese');
+var esdese = require('./esdese');
 describe('异步流程', function() {
-  describe('Step', function() {
+  describe('esdese', function() {
     this.timeout(60000);
     it('如果并行执行成功', function(done) {
         esdese(

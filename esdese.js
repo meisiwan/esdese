@@ -20,12 +20,17 @@ function extendApi(self){
             return function(res){
                 count --;
                 results[count] = res;
-                if(count == 0){
-                    self.apply(self, results.reverse());
-                }
+                count == 0 && self.apply(self, results.reverse());
             }
         }
     }
 }
 
+Array.prototype.reverse = Array.prototype.reverse || function(){
+    var result = [], len = this.length;
+    for(var i = 0; i < len; i++) {
+        result[result.length] = this[len - i - 1];
+    }
+    return result;
+}
 module.exports = esdese;
