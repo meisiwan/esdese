@@ -1,8 +1,8 @@
 {
-  "name": "js-step",
+  "name": "frank",
   "version": "1.0.0",
   "description": "",
-  "main": "js-step.js",
+  "main": "frank.js",
   "scripts": {
     "test": "mocha"
   },

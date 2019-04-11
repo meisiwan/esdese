@@ -15,7 +15,7 @@
 </body>
 <script>
 //回调控制
-var Step = function(){
+var Frank = function(){
     var fns = [].slice.call(arguments);
     var next = function(i){
         i ++;
@@ -107,7 +107,7 @@ var vm = function(options){
     //每个变量对应的model或者对应的事件
     var bindings = { };
     //写法2
-    Step(
+    Frank(
         function readEls(){//遍历所有拥有指令的节点
             [].forEach.call(eles, this);
         },

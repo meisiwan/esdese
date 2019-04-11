@@ -1,4 +1,4 @@
-var Step = function(){
+var Frank = function(){
     var fns = [].slice.call(arguments);
     var next = function(i){
         i ++;
@@ -28,4 +28,4 @@ function extendApi(self){
     }
 }
 
-module.exports = Step;
+module.exports = Frank;
