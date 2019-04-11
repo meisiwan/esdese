@@ -6,6 +6,6 @@
   "scripts": {
     "test": "mocha"
   },
-  "author": "冯勇",
+  "author": "phung",
   "license": "ISC"
 }
