@@ -1,5 +1,5 @@
 # step
-javascript final callback hell solution(最终的js回调地狱解决方案)
+javascript 异步流程控制 (Asynchronous process control)
 
 ``` js
 var Step = function(){
