@@ -80,7 +80,7 @@ esdese(
         // setTimeout(group().bind(this, 'a'), 2000);
         // setTimeout(group().bind(this, 'b'), 2000);
         for(var i = 0; i < 3; i ++){
-            let temp = group(3 - i);
+            let temp = group(2 - i);
             setTimeout(function(){
                 temp(Date.now() / 1000);
             }, 1000 * i);
