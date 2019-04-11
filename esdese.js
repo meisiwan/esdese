@@ -15,12 +15,12 @@ function extendApi(self){
     //并行执行的api
     self.group = function(){
         var count = 0, results = [];
-        return function(){
+        return function(i){
             count ++;
             return function(res){
                 count --;
-                results[count] = res;
-                count == 0 && self.apply(self, results.reverse());
+                results[i == undefined ? count : i] = res;
+                count == 0 && self.apply(self, typeof i == 'number' ? results : results.reverse());
             }
         }
     }
