@@ -68,7 +68,7 @@ Step(
         list.forEach(this);
     },
     function(item){
-        return item.list.reduce((a, b) => a + b, '');
+        this(item.list.reduce((a, b) => a + b, ''));
     },
     function(sum){
         console.log('sum:', sum);
