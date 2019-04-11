@@ -1,7 +1,7 @@
 # step
 javascript final callback hell solution(最终的js回调地狱解决方案)
 
-```
+``` js
 var Step = function(){
     var fns = [].slice.call(arguments);
     var next = function(i){
@@ -34,7 +34,7 @@ function extendApi(self){
 
 
 example: 
-```
+``` js
 Step(
     function(){
         console.log('one request');
@@ -56,7 +56,7 @@ Step(
 
 Other usage: 
 
-```
+``` js
 var list = [{
     list: ['1', '2', '3'],
 },{
