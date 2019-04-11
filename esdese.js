@@ -33,4 +33,5 @@ Array.prototype.reverse = Array.prototype.reverse || function(){
     }
     return result;
 }
+
 module.exports = esdese;
