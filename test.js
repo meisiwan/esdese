@@ -4,7 +4,6 @@ describe('异步流程', function() {
   describe('Step', function() {
     this.timeout(60000);
     it('如果并行执行成功', function(done) {
-
         Step(
             function(){
                 var group = this.group();

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id='app'>
+        <input type="text" v-model='value1' />
+        <input type="text" v-model='value1' />
+        <button v-on-click='add'>增加</button>
+    </div>
+</body>
+<script>
+//回调控制
+var Step = function(){
+    var fns = [].slice.call(arguments);
+    var next = function(i){
+        i ++;
+        return function(){
+            var self = next(i);
+            extendApi(self);//扩展api
+            fns[i].apply(self, arguments);
+        }
+    }
+    next(-1)();
+}
+function extendApi(self){
+    //并行执行的api
+    self.group = function(){
+        var count = 0, results = [];
+        return function(){
+            count ++;
+            return function(res){
+                count --;
+                results[count] = res;
+                if(count == 0){
+                    self.apply(self, results.reverse());
+                }
+            }
+        }
+    }
+}
+
+</script>
+<script>
+
+//指令列表
+var directives = {
+    model(el, value, event, vm, key){
+        let eventName = 'input';
+        el.value = value;
+        if (el.handlers && el.handlers[eventName]) {
+            el.removeEventListener(eventName, el.handlers[eventName]);
+        } else {
+            el.handlers = {};
+        }
+
+        el.handlers[eventName] = function (e) {
+            vm[key] = e.target.value;
+        }
+
+        el.addEventListener(eventName, el.handlers[eventName]);
+    },
+    show(){
+
+    },
+    if(){
+
+    },
+    on: {
+        update(el, callback, event, vm, key, dir) {
+            if (!dir.handlers) {
+                dir.handlers = {}
+            }
+            let handlers = dir.handlers;
+            if (handlers[event]) {
+                //绑定新的事件前移除原绑定的事件函数
+                el.removeEventListener(event, handlers[event]);
+            }
+            //绑定新的事件函数
+            if (callback) {
+                callback = callback.bind(vm);
+                el.addEventListener(event, callback);
+                handlers[event] = callback;
+            }
+        },
+    }
+}
+var vm = function(options){
+    var self = this;
+    //获取根节点
+    this.$el = document.getElementById(options.el);
+    //获取当前指令
+    var selector = Object.keys(directives).map(i => `[v-${i}]`).join(',');
+    selector += ',' + ['click', 'change', 'blur'].map(i => `[v-on-${i}]`).join(',');
+    //获取拥有指令的节点
+    var eles = this.$eles = this.$el.querySelectorAll(selector);
+    //写法1
+    // [].forEach.call(eles, el => {
+    //     [].forEach.call(el.attributes, attr => {
+    //         console.dir(attr)
+    //     });
+    // });
+    //每个变量对应的model或者对应的事件
+    var bindings = { };
+    //写法2
+    Step(
+        function readEls(){//遍历所有拥有指令的节点
+            [].forEach.call(eles, this);
+        },
+        function readAttrs(el){//遍历该节点的指令
+            [].forEach.call(el.attributes, this.bind(this, el));
+        },
+        function readDir(el, attr){//为指令生成一个集合
+            if(attr.name.includes('v')){
+                let dirname = attr.name.slice(2), event, index = dirname.indexOf('-');
+                if(index != -1){
+                    event = dirname.slice(index + 1);
+                    dirname = dirname.slice(0, index);
+                }
+                this({
+                    attr, //单个指令对象
+                    dirname:  dirname,//指令名称 model  on
+                    event: event, //事件名click
+                    el, //节点
+                    key: attr.value, //指令绑定的变量
+                    update: directives[dirname].update || directives[dirname], //指令对应的方法
+                });
+            }
+        },
+        function bindDir(dir){//指令缓存  一个数据更新多处地方
+            //移除指令
+            dir.el.removeAttribute(dir.attr.name);
+            let key = dir.key;
+            if(!bindings[key]){
+                bindings[key] = {
+                    value: '',
+                    dirs: []
+                }
+            }
+            bindings[key].dirs.push(dir);
+            this.call(this, self, key, bindings[key]);
+        },
+        function update(vm, key, binding){//双向数据绑定
+            if (!vm.hasOwnProperty(key)) {
+                Object.defineProperty(vm, key, {
+                    get: function(){
+                        return binding.value;
+                    },
+                    set: function(value){
+                        binding.value = value;
+                        binding.dirs.forEach(function(dir){
+                            dir.update(
+                                dir.el,
+                                value,
+                                dir.event,
+                                vm,
+                                dir.key,
+                                dir
+                            );
+                        });
+                    }
+                });
+            }
+        }
+    );
+    let _data = Object.assign(options.data, options.methods);
+    Object.keys(bindings).forEach(key => this[key] = _data[key]);
+}
+
+
+
+
+
+new vm({
+    el: 'app',
+    data: {
+        value1: 1,
+        value2: 2
+    },
+    methods: {
+        add(){
+           this.value1 ++; 
+        }
+    }
+})
+</script>
+</html>
