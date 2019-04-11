@@ -8,15 +8,33 @@ var Step = function(){
         i ++;
         return function(){
             var self = next(i);
+            extendApi(self);//扩展api
             var result = fns[i].apply(self, arguments);
-            result && self.call(self, result);//同步返回 则传给下一个函数 Sync return is passed to the next function
+            if(result){
+                self.call(self, result);//同步返回 则传给下一个函数
+            }
         }
     }
     next(-1)();
 }
+function extendApi(self){
+    //并行执行的api
+    self.group = function(){
+        var count = 0, results = [];
+        return function(){
+            count ++;
+            return function(res){
+                count --;
+                results[count] = res;
+                if(count == 0){
+                    self.apply(self, results.reverse());
+                }
+            }
+        }
+    }
+}
 ```
 
-Just 12 lines of code (仅仅12行代码)
 
 example: 
 ```
@@ -64,4 +82,25 @@ Step(
 
 ```
 
-If it's easy to use, add stars.(加点星呗)
+
+parallel  并行
+
+``` js
+Step(
+    function(){
+        var group = this.group();
+        // setTimeout(group().bind(this, 'a'), 2000);
+        // setTimeout(group().bind(this, 'b'), 2000);
+        for(var i = 0; i < 3; i ++){
+            let temp = group();
+            setTimeout(function(){
+                temp(Date.now() / 1000);
+            }, 1000 * i);
+        }
+    },
+    function(a, b, c){
+        console.log(a, b, c);
+        //1554949386.242 1554949387.235 1554949388.235
+    }
+)
+```
