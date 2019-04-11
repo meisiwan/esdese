@@ -2,10 +2,17 @@
   "name": "js-step",
   "version": "1.0.0",
   "description": "",
-  "main": "step.js",
+  "main": "js-step.js",
   "scripts": {
     "test": "mocha"
   },
   "author": "phung",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/meisiwan/step"
+  },
+  "bugs": {
+    "url": "https://github.com/meisiwan/step/issues"
+  }
 }
