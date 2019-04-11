@@ -1,8 +1,8 @@
-# Frank
+# esdese
 javascript 异步流程控制 (Asynchronous process control)
 
 ``` js
-var Frank = function(){
+var esdese = function(){
     var fns = [].slice.call(arguments);
     var next = function(i){
         i ++;
@@ -35,7 +35,7 @@ function extendApi(self){
 
 example: 
 ``` js
-Frank(
+esdese(
     function(){
         console.log('one request');
         setTimeout(this, 2000);
@@ -63,7 +63,7 @@ var list = [{
     list: ['4', '5', '6'],
 
 }]
-Frank(
+esdese(
     function(){
         list.forEach(this);
     },
@@ -83,7 +83,7 @@ Frank(
 parallel  并行
 
 ``` js
-Frank(
+esdese(
     function(){
         var group = this.group();
         // setTimeout(group().bind(this, 'a'), 2000);

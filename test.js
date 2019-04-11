@@ -1,10 +1,10 @@
 var assert = require('assert');
-var Step = require('./frank');
+var Step = require('./esdese');
 describe('异步流程', function() {
   describe('Step', function() {
     this.timeout(60000);
     it('如果并行执行成功', function(done) {
-        Frank(
+        esdese(
             function(){
                 var group = this.group();
                 // setTimeout(group().bind(this, 'a'), 2000);

@@ -1,8 +1,8 @@
 {
-  "name": "frank",
+  "name": "esdese",
   "version": "1.0.0",
   "description": "",
-  "main": "frank.js",
+  "main": "esdese.js",
   "scripts": {
     "test": "mocha"
   },

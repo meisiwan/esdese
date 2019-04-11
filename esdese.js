@@ -1,4 +1,4 @@
-var Frank = function(){
+var esdese = function(){
     var fns = [].slice.call(arguments);
     var next = function(i){
         i ++;
@@ -28,4 +28,4 @@ function extendApi(self){
     }
 }
 
-module.exports = Frank;
+module.exports = esdese;
