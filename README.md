@@ -1,8 +1,8 @@
-# step
+# Frank
 javascript 异步流程控制 (Asynchronous process control)
 
 ``` js
-var Step = function(){
+var Frank = function(){
     var fns = [].slice.call(arguments);
     var next = function(i){
         i ++;
@@ -35,7 +35,7 @@ function extendApi(self){
 
 example: 
 ``` js
-Step(
+Frank(
     function(){
         console.log('one request');
         setTimeout(this, 2000);
@@ -63,7 +63,7 @@ var list = [{
     list: ['4', '5', '6'],
 
 }]
-Step(
+Frank(
     function(){
         list.forEach(this);
     },
@@ -83,7 +83,7 @@ Step(
 parallel  并行
 
 ``` js
-Step(
+Frank(
     function(){
         var group = this.group();
         // setTimeout(group().bind(this, 'a'), 2000);
