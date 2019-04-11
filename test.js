@@ -10,7 +10,7 @@ describe('异步流程', function() {
                 // setTimeout(group().bind(this, 'a'), 2000);
                 // setTimeout(group().bind(this, 'b'), 2000);
                 for(var i = 1; i < 4; i ++){
-                    let temp = group(3 - i);
+                    let temp = group();
                     setTimeout(function(){
                         temp(Date.now() / 1000);
                     }, 1000 * i);
