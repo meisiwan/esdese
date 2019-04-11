@@ -71,6 +71,28 @@ esdese(
 )
 ```
 
+parallel  order 控制下个函数接受参数的顺序
+
+``` js
+esdese(
+    function(){
+        var group = this.group();
+        // setTimeout(group().bind(this, 'a'), 2000);
+        // setTimeout(group().bind(this, 'b'), 2000);
+        for(var i = 0; i < 3; i ++){
+            let temp = group(3 - i);
+            setTimeout(function(){
+                temp(Date.now() / 1000);
+            }, 1000 * i);
+        }
+    },
+    function(a, b, c){
+        console.log(a, b, c);
+        //1554977884.37 1554977883.37 1554977882.369
+    }
+)
+```
+
 
 # Support
 ## >= ie6
