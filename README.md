@@ -9,10 +9,7 @@ var Step = function(){
         return function(){
             var self = next(i);
             extendApi(self);//扩展api
-            var result = fns[i].apply(self, arguments);
-            if(result){
-                self.call(self, result);//同步返回 则传给下一个函数
-            }
+            fns[i].apply(self, arguments);
         }
     }
     next(-1)();
