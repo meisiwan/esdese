@@ -1,0 +1,11 @@
+{
+  "name": "step",
+  "version": "1.0.0",
+  "description": "",
+  "main": "step.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "冯勇",
+  "license": "ISC"
+}
