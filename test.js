@@ -7,20 +7,24 @@ describe('异步流程', function() {
         esdese(
             function(){
                 var group = this.group();
-                // setTimeout(group().bind(this, 'a'), 2000);
-                // setTimeout(group().bind(this, 'b'), 2000);
-                for(var i = 1; i < 4; i ++){
+                // setTimeout(group('a'), 2000);
+                // setTimeout(group('b'), 2000);
+                for(var i = 0; i < 3; i ++){
                     let temp = group();
                     setTimeout(function(){
                         temp(Date.now() / 1000);
                     }, 1000 * i);
                 }
+                // ['a', 'b', 'c'].forEach(this.wait);
+                // this.start();
             },
             function(a, b, c){
+                console.log(a, b, c)
                 done();
-                console.log(a, b, c);
                 //1554949386.242 1554949387.235 1554949388.235  
-            }
+            },
+            
+            
         )
     });
   });

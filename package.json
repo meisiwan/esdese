@@ -1,6 +1,6 @@
 {
   "name": "esdese",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "",
   "main": "esdese.js",
   "scripts": {
@@ -15,5 +15,5 @@
   "bugs": {
     "url": "https://github.com/meisiwan/step/issues"
   },
-  "keywords": ["futures", "async", "callback"]
+  "keywords": ["futures", "async", "callback", "flow"]
 }

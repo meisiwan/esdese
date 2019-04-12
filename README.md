@@ -1,9 +1,11 @@
 # esdese
-javascript 异步流程控制 (Asynchronous process control)
+javascript (goodbye callback and promise) 回调流程控制 跟回调、promise 说再见
 
-example: 
+# example: 
 
-``` js
+## flow 串行
+
+``` js  
 esdese(
     function(){
         console.log('one request');
@@ -15,72 +17,93 @@ esdese(
     },
     function(){
         console.log('three request');
-        setTimeout(this, 2000);
+        //可以通过param先传递一个参数过去
+        setTimeout(this.param('test'), 2000);
     },
-    function(){
-        console.log('success')
+    function(a){
+        console.log(a)
+        // test
     }
 )
+//console
+// one request    time: 0
+// two request    time: 2000
+// three request  time: 4000
+// test           time: 6000
 ```
 
-Other usage: 
+## loop 循环
 
 ``` js
-var list = [{
-    list: ['1', '2', '3'],
-},{
-    list: ['4', '5', '6'],
 
-}]
 esdese(
     function(){
-        list.forEach(this);
+        ['a', 'b', 'c'].forEach(this);
     },
     function(item){
-        this(item.list.reduce((a, b) => a + b, ''));
+        console.log(item); 
+        //内部默认的数组和对象  其他需自己定义
+        // this.data.list.push(a);   default Array => list
+        // this.data.map.item.a = item;   default Object => map
+        // this.reset();  reset list => [] and map => {}   重置默认的数组和对象
+        this('success');
     },
-    function(sum){
-        console.log('sum:', sum);
-        //sum: 123
-        //sum: 456
+    function(result){
+        console.log(result);
     }
 );
+//console
+// a
+// success
+// b
+// success
+// c
+// success
 
 ```
 
 
-parallel  并行
-
+### need wait
 ``` js
+
 esdese(
     function(){
-        var group = this.group();
-        // setTimeout(group().bind(this, 'a'), 2000);
-        // setTimeout(group().bind(this, 'b'), 2000);
-        for(var i = 0; i < 3; i ++){
-            let temp = group();
-            setTimeout(function(){
-                temp(Date.now() / 1000);
-            }, 1000 * i);
-        }
+        ['a', 'b', 'c'].forEach(this.wait);
+        this.start();
     },
-    function(a, b, c){
-        console.log(a, b, c);
-        //1554949386.242 1554949387.235 1554949388.235
+    function(item){
+        console.log(item); 
+        this.end('success')
+    },
+    function(result){
+        console.log(result)
     }
-)
+);
+//console
+// a
+// b
+// c
+// success
+
 ```
 
-parallel  order 控制下个函数接受参数的顺序
+## parallel 分组并行
 
 ``` js
 esdese(
     function(){
         var group = this.group();
-        // setTimeout(group().bind(this, 'a'), 2000);
-        // setTimeout(group().bind(this, 'b'), 2000);
+        //1: group has name
+        // setTimeout(group('a'), 2000);
+        // setTimeout(group('b'), 2000);
+
         for(var i = 0; i < 3; i ++){
-            let temp = group(2 - i);
+            //2: group no name 
+            let temp = group();
+
+            //3: group has name
+            // let temp = group('time');
+
             setTimeout(function(){
                 temp(Date.now() / 1000);
             }, 1000 * i);
@@ -88,7 +111,9 @@ esdese(
     },
     function(a, b, c){
         console.log(a, b, c);
-        //1554977884.37 1554977883.37 1554977882.369
+        //1:    { a: undefined, b: undefined } undefined undefined
+        //2:    1554949386.242 1554949387.235 1554949388.235
+        //3:    { time: [ 1555048163.19, 1555048164.189, 1555048165.189 ] }  undefined  undefined
     }
 )
 ```
