@@ -1,6 +1,12 @@
 # esdese
 javascript (goodbye callback and promise) 回调流程控制 跟回调、promise 说再见
 
+## use 
+``` shell 
+npm i esdese
+```
+support node.js
+
 # example: 
 
 ## flow 串行
