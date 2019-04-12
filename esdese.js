@@ -22,10 +22,10 @@ function extendApi(self, data, _data){
     self.group = function(){
         var count = 0, results;
         return function(g){//g分组
-            var current = count ++;
+            var current = count ++, _this;
             results = g ? results || {} : [] ;//如果有分组参数  则为对象
             g && (results[g] = []); //初始化
-            return function(res){
+            _this = function(res){
                 count --;
                 if(g){//是否有分组参数
                     results[g] = results[g] instanceof Array ? results[g] : [results[g]];
@@ -36,6 +36,8 @@ function extendApi(self, data, _data){
                 }
                 count == 0 && (g ? self.call(self, results) : self.apply(self, results));
             }
+            _this.param = self.param.bind(_this);
+            return _this;
         }
     }
     //事先传递参数

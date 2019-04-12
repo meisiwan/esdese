@@ -99,14 +99,8 @@ esdese(
 
         for(var i = 0; i < 3; i ++){
             //2: group no name 
-            let temp = group();
-
             //3: group has name
-            // let temp = group('time');
-
-            setTimeout(function(){
-                temp(Date.now() / 1000);
-            }, 1000 * i);
+            setTimeout(group(/*'time'*/).param(Date.now() / 1000), 1000 * i);
         }
     },
     function(a, b, c){
