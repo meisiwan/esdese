@@ -100,14 +100,14 @@ esdese(
         for(var i = 0; i < 3; i ++){
             //2: group no name 
             //3: group has name
-            setTimeout(group(/*'time'*/).param(Date.now() / 1000), 1000 * i);
+            setTimeout(group(/*'time'*/).param(i), 1000 * i);
         }
     },
     function(a, b, c){
         console.log(a, b, c);
         //1:    { a: undefined, b: undefined } undefined undefined
-        //2:    1554949386.242 1554949387.235 1554949388.235
-        //3:    { time: [ 1555048163.19, 1555048164.189, 1555048165.189 ] }  undefined  undefined
+        //2:    0 1 2
+        //3:    { time: [ 0, 1, 2 ] }  undefined  undefined
     }
 )
 ```
